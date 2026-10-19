@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-obsidian: #171717;
+  --color-ivory: #F5F1E8;
+  --color-bronze: #9B7B50;
+  --color-bronze-dark: #7D623C;
+  --color-bronze-light: #B8996F;
+}
+
+body {
+  background-color: #FAF8F5;
+  color: #171717;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom luxury typography classes */
+.font-display {
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+}
+
+.font-serif-luxury {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F1E8;
+}
+::-webkit-scrollbar-thumb {
+  background: #C4AC8D;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9B7B50;
+}
+
+/* Luxury animations and transitions */
+.transition-luxury {
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-gradient-text {
+  background: linear-gradient(135deg, #171717 0%, #4A3E2D 50%, #9B7B50 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bronze-gradient-text {
+  background: linear-gradient(135deg, #B8996F 0%, #9B7B50 50%, #7D623C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Card hover glow */
+.card-luxury {
+  background: #FFFFFF;
+  border: 1px solid #EAE4D8;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card-luxury:hover {
+  border-color: #C4AC8D;
+  box-shadow: 0 12px 30px -10px rgba(155, 123, 80, 0.15);
+  transform: translateY(-2px);
+}
