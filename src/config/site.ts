@@ -6,11 +6,14 @@ export const siteConfig = {
   
   // Configurable Contact Information
   contact: {
-    whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210", // Without + for wa.me API
-    phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || "+91 98765 43210",
+    whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919997373342", // Without + for wa.me API
+    whatsappUrl: "https://wa.me/919997373342",
+    phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || "9997373342",
+    phoneHref: "tel:+919997373342",
     email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "concierge@cozzer.in",
     wholesaleEmail: process.env.NEXT_PUBLIC_WHOLESALE_EMAIL || "wholesale@cozzer.in",
-    address: process.env.NEXT_PUBLIC_SHOWROOM_ADDRESS || "COZZER Experience Studio, 42 Heritage Boulevard, Indiranagar, Bengaluru, Karnataka 560038, India",
+    address: process.env.NEXT_PUBLIC_SHOWROOM_ADDRESS || "PQGP+56Q, Sakar Kui masjid, Nabi Karim, Hapur, Uttar Pradesh 245101",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=PQGP%2B56Q%2C+Sakar+Kui+masjid%2C+Nabi+Karim%2C+Hapur%2C+Uttar+Pradesh+245101",
     businessHours: process.env.NEXT_PUBLIC_BUSINESS_HOURS || "Monday – Saturday: 10:00 AM – 8:00 PM IST",
   },
 

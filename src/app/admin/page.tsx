@@ -26,16 +26,22 @@ export default function AdminDashboardPage() {
 
   const loadData = async () => {
     setLoading(true);
-    const s = await getAdminStats();
-    setStats(s);
-
-    const prods = await getProducts({
-      limit: 6,
-      sortBy: "newest",
-      includeDrafts: true,
-    });
-    setRecentProducts(prods.products);
-    setLoading(false);
+    try {
+      const [s, prods] = await Promise.all([
+        getAdminStats(),
+        getProducts({
+          limit: 6,
+          sortBy: "newest",
+          includeDrafts: true,
+        }),
+      ]);
+      setStats(s);
+      setRecentProducts(prods.products);
+    } catch (err) {
+      console.error("Failed to load admin dashboard data", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -82,10 +88,10 @@ export default function AdminDashboardPage() {
             </span>
             <Package className="w-4 h-4 text-[#9B7B50]" />
           </div>
-          <div className="text-3xl font-serif-luxury font-bold text-[#171717]">
+          <div className="text-3xl font-sans font-bold text-[#171717] tracking-[-0.02em]">
             {loading ? "—" : stats?.totalProducts || 0}
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-stone-500">
+          <div className="flex items-center gap-2 text-[11px] text-stone-500 font-normal">
             <span className="text-emerald-700 font-semibold">{stats?.publishedProducts || 0} Published</span>
             <span>•</span>
             <span className="text-stone-400">{stats?.draftProducts || 0} Drafts</span>
@@ -100,10 +106,10 @@ export default function AdminDashboardPage() {
             </span>
             <Layers className="w-4 h-4 text-[#9B7B50]" />
           </div>
-          <div className="text-3xl font-serif-luxury font-bold text-[#171717]">
+          <div className="text-3xl font-sans font-bold text-[#171717] tracking-[-0.02em]">
             {loading ? "—" : stats?.totalCategories || 6}
           </div>
-          <p className="text-[11px] text-stone-500">
+          <p className="text-[11px] text-stone-500 font-normal">
             Casual, Formal, Loafers, Boots, Kids, Ethnic
           </p>
         </div>
@@ -116,10 +122,10 @@ export default function AdminDashboardPage() {
             </span>
             <AlertTriangle className="w-4 h-4 text-amber-600" />
           </div>
-          <div className="text-3xl font-serif-luxury font-bold text-[#171717]">
+          <div className="text-3xl font-sans font-bold text-[#171717] tracking-[-0.02em]">
             {loading ? "—" : stats?.outOfStockVariants || 0}
           </div>
-          <p className="text-[11px] text-stone-500">
+          <p className="text-[11px] text-stone-500 font-normal">
             Sizes requiring replenishment
           </p>
         </div>
@@ -132,10 +138,10 @@ export default function AdminDashboardPage() {
             </span>
             <Package className="w-4 h-4 text-[#9B7B50]" />
           </div>
-          <div className="text-3xl font-serif-luxury font-bold text-[#171717]">
+          <div className="text-3xl font-sans font-bold text-[#171717] tracking-[-0.02em]">
             {loading ? "—" : stats?.featuredProducts || 0}
           </div>
-          <p className="text-[11px] text-stone-500">
+          <p className="text-[11px] text-stone-500 font-normal">
             Showcased on main campaign hero
           </p>
         </div>
@@ -176,7 +182,7 @@ export default function AdminDashboardPage() {
       {/* Recent Products Table */}
       <div className="bg-white border border-[#EAE4D8] shadow-sm space-y-4 p-6">
         <div className="flex justify-between items-center pb-3 border-b border-[#EAE4D8]">
-          <h2 className="font-serif-luxury text-xl font-semibold text-[#171717]">
+          <h2 className="font-sans text-xl font-bold text-[#171717] tracking-[-0.015em]">
             Recently Updated Footwear
           </h2>
           <Link
@@ -210,9 +216,9 @@ export default function AdminDashboardPage() {
                 return (
                   <tr key={p.id} className="hover:bg-stone-50/60 transition-colors">
                     <td className="p-3 font-mono font-bold text-[#171717]">{p.sku}</td>
-                    <td className="p-3 font-medium text-[#171717]">{p.name}</td>
-                    <td className="p-3 text-stone-600">{p.category?.name || "Footwear"}</td>
-                    <td className="p-3 font-semibold text-[#171717]">
+                    <td className="p-3 font-semibold text-[#171717]">{p.name}</td>
+                    <td className="p-3 text-stone-600 font-normal">{p.category?.name || "Footwear"}</td>
+                    <td className="p-3 font-bold text-[#171717]">
                       {formatCurrency(p.price)}
                     </td>
                     <td className="p-3 text-stone-500">

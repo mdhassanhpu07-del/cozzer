@@ -50,13 +50,13 @@ export default function AdminCategoriesPage() {
 
             <div className="p-5 space-y-2 flex-grow flex flex-col justify-between">
               <div>
-                <h3 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+                <h3 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
                   {cat.name}
                 </h3>
                 <p className="text-xs text-stone-500 font-mono mt-0.5">
                   Slug: /{cat.slug}
                 </p>
-                <p className="text-xs text-stone-600 font-light mt-2 line-clamp-2">
+                <p className="text-xs text-stone-600 font-normal mt-2 line-clamp-2">
                   {cat.description || "Curated luxury footwear line."}
                 </p>
               </div>

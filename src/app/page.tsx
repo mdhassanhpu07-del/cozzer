@@ -41,16 +41,16 @@ export default async function HomePage() {
 
         {/* Hero Content */}
         <div className="container relative z-10 mx-auto max-w-4xl text-center space-y-6 pt-12 pb-16">
-          <div className="inline-flex items-center gap-2 border border-[#9B7B50]/60 bg-black/40 backdrop-blur-md px-4 py-1.5 text-xs tracking-[0.25em] uppercase text-[#F5F1E8]">
+          <div className="inline-flex items-center gap-2 border border-[#9B7B50]/60 bg-black/40 backdrop-blur-md px-4 py-1.5 text-xs tracking-[0.2em] uppercase font-semibold text-[#F5F1E8]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#9B7B50]"></span>
             <span>Master Catalogue 2025 – 2026</span>
           </div>
 
-          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white uppercase leading-[1.08]">
+          <h1 className="font-sans text-[clamp(2.35rem,5.5vw+0.5rem,4.5rem)] font-extrabold tracking-[-0.035em] text-white uppercase leading-[1.06]">
             Architect of Contemporary Footwear
           </h1>
 
-          <p className="text-[#F5F1E8]/80 text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-[#F5F1E8]/85 text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-normal leading-relaxed">
             Distinguished footwear meticulously sculpted for gentlemen of discerning taste, retailers, and wholesale distributors across India.
           </p>
 
@@ -76,7 +76,7 @@ export default async function HomePage() {
             </a>
           </div>
 
-          <div className="pt-6 text-[11px] uppercase tracking-widest text-[#C4AC8D] flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
+          <div className="pt-6 text-[11px] uppercase tracking-widest text-[#C4AC8D] font-medium flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
             <span>• Verified Wholesale Tiers</span>
             <span>• Pan-India Dispatch</span>
             <span>• Direct Client Concierge</span>
@@ -89,33 +89,33 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-6">
             <div className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
                 The House of COZZER
               </span>
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal leading-tight">
+              <h2 className="font-sans text-[clamp(1.75rem,3.2vw+0.5rem,2.5rem)] text-[#171717] font-bold leading-[1.15] tracking-[-0.025em]">
                 Where Indian Shoemaking Heritage Meets Modern Minimalist Luxury
               </h2>
             </div>
 
-            <p className="text-stone-600 text-sm leading-relaxed font-light">
+            <p className="text-stone-600 text-sm md:text-[15px] leading-relaxed font-normal">
               COZZER was established to bridge the gap between uncompromising bespoke aesthetics and practical daily wear. Every silhouette is conceived through architectural restraint—stripping away gratuitous ornamentation to let premium grain leathers, balanced lasts, and precision welting take center stage.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
               <div className="border-l-2 border-[#9B7B50] pl-4 space-y-1">
-                <h4 className="font-semibold text-xs uppercase tracking-wider text-[#171717]">
+                <h4 className="font-bold text-xs uppercase tracking-wider text-[#171717]">
                   Crust & Nappa Leathers
                 </h4>
-                <p className="text-stone-500 text-xs">
+                <p className="text-stone-500 text-xs font-normal">
                   Hand-selected hides with organic patinas that age with character.
                 </p>
               </div>
 
               <div className="border-l-2 border-[#9B7B50] pl-4 space-y-1">
-                <h4 className="font-semibold text-xs uppercase tracking-wider text-[#171717]">
+                <h4 className="font-bold text-xs uppercase tracking-wider text-[#171717]">
                   Orthopedic Footbed
                 </h4>
-                <p className="text-stone-500 text-xs">
+                <p className="text-stone-500 text-xs font-normal">
                   Dual-density memory cushioning engineered for day-long endurance.
                 </p>
               </div>
@@ -160,10 +160,10 @@ export default async function HomePage() {
       <section className="container mx-auto px-4 md:px-8 space-y-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-[#EAE4D8] pb-6">
           <div className="space-y-1">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
               Curated Classifications
             </span>
-            <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal">
+            <h2 className="font-sans text-[clamp(1.75rem,3vw+0.5rem,2.35rem)] text-[#171717] font-bold leading-[1.18] tracking-[-0.025em]">
               Explore by Footwear Category
             </h2>
           </div>
@@ -195,13 +195,13 @@ export default async function HomePage() {
                 className="object-cover object-center opacity-70 group-hover:opacity-85 group-hover:scale-105 transition-all duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6 text-white">
-                <span className="text-[10px] uppercase tracking-[0.25em] text-[#C4AC8D] font-mono">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[#C4AC8D] font-semibold">
                   Collection
                 </span>
-                <h3 className="font-serif-luxury text-2xl font-medium tracking-wide group-hover:text-[#F5F1E8] transition-colors">
+                <h3 className="font-sans text-xl sm:text-2xl font-bold tracking-[-0.015em] group-hover:text-[#F5F1E8] transition-colors">
                   {cat.name}
                 </h3>
-                <p className="text-xs text-stone-300 font-light line-clamp-1 mt-1 opacity-80 group-hover:opacity-100">
+                <p className="text-xs text-stone-300 font-normal line-clamp-1 mt-1 opacity-85 group-hover:opacity-100">
                   {cat.description}
                 </p>
                 <div className="pt-2 flex items-center gap-1.5 text-xs text-[#C4AC8D] font-semibold">
@@ -218,10 +218,10 @@ export default async function HomePage() {
       <section className="container mx-auto px-4 md:px-8 space-y-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-[#EAE4D8] pb-6">
           <div className="space-y-1">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
               New In Catalogue
             </span>
-            <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal">
+            <h2 className="font-sans text-[clamp(1.75rem,3vw+0.5rem,2.35rem)] text-[#171717] font-bold leading-[1.18] tracking-[-0.025em]">
               Featured Silhouettes
             </h2>
           </div>
@@ -245,13 +245,13 @@ export default async function HomePage() {
       <section className="container mx-auto px-4 md:px-8">
         <div className="relative bg-[#171717] text-[#F5F1E8] p-8 md:p-16 border border-[#2A2927] overflow-hidden">
           <div className="relative z-10 max-w-2xl space-y-4">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
               The Heritage Loafer Edit
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl uppercase font-bold text-white leading-tight">
+            <h2 className="font-sans text-[clamp(2rem,4vw+0.5rem,3.25rem)] uppercase font-extrabold text-white leading-[1.08] tracking-[-0.03em]">
               Unstructured Sophistication
             </h2>
-            <p className="text-stone-300 text-sm leading-relaxed font-light">
+            <p className="text-stone-300 text-sm leading-relaxed font-normal">
               Tailored for tropical climates and evening ease. Crafted with unlined suede uppers, flexible Blake stitching, and muted bronze hardware for effortless refinement.
             </p>
             <div className="pt-4 flex flex-wrap gap-4">
@@ -276,27 +276,27 @@ export default async function HomePage() {
       <section className="container mx-auto px-4 md:px-8">
         <div className="bg-[#FAF8F5] border border-[#EAE4D8] p-8 md:p-14 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="lg:col-span-2 space-y-4">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#9B7B50]">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#9B7B50]">
               <Building2 className="w-4 h-4 text-[#9B7B50]" />
               <span>Institutional & Retail Distribution</span>
             </div>
-            <h3 className="font-serif-luxury text-3xl text-[#171717] font-normal">
+            <h3 className="font-sans text-[clamp(1.65rem,2.8vw+0.5rem,2.25rem)] text-[#171717] font-bold leading-[1.18] tracking-[-0.025em]">
               Supply Your Retail Boutique or Multi-Brand Store
             </h3>
-            <p className="text-stone-600 text-sm leading-relaxed font-light max-w-xl">
+            <p className="text-stone-600 text-sm leading-relaxed font-normal max-w-xl">
               COZZER collaborates with established fashion retailers, footwear boutiques, and corporate distributors across all major Indian cities. We provide flexible MOQ tiers, customized size assortments, and rapid order dispatch.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 text-xs text-stone-700">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 font-medium">
                 <CheckCircle2 className="w-4 h-4 text-[#9B7B50]" />
                 <span>Tiered Wholesale Discounts</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 font-medium">
                 <CheckCircle2 className="w-4 h-4 text-[#9B7B50]" />
                 <span>Custom Size-Break Runs</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 font-medium">
                 <CheckCircle2 className="w-4 h-4 text-[#9B7B50]" />
                 <span>Pan-India B2B Logistics</span>
               </div>

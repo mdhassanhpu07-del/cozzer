@@ -299,7 +299,7 @@ export default function ProductForm({ initialProduct, categories }: ProductFormP
 
       {/* Section 1: General Product Details */}
       <div className="bg-white border border-[#EAE4D8] p-6 space-y-6">
-        <h3 className="font-serif-luxury text-lg font-semibold text-[#171717] pb-3 border-b border-[#EAE4D8]">
+        <h3 className="font-sans text-lg font-bold text-[#171717] pb-3 border-b border-[#EAE4D8] tracking-[-0.015em]">
           1. General Product Information
         </h3>
 
@@ -423,7 +423,7 @@ export default function ProductForm({ initialProduct, categories }: ProductFormP
       {/* Section 2: Product Photography & Image Management */}
       <div className="bg-white border border-[#EAE4D8] p-6 space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-3 border-b border-[#EAE4D8]">
-          <h3 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+          <h3 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
             2. Product Photography
           </h3>
           <span className="text-xs text-stone-500">
@@ -506,10 +506,10 @@ export default function ProductForm({ initialProduct, categories }: ProductFormP
       <div className="bg-white border border-[#EAE4D8] p-6 space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-3 border-b border-[#EAE4D8]">
           <div>
-            <h3 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+            <h3 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
               3. Size & Colour Variants (Live Workshop Stock)
             </h3>
-            <p className="text-xs text-stone-500 font-light">
+            <p className="text-xs text-stone-500 font-normal">
               Accurately manage size availability. Stock values directly govern public catalogue badges.
             </p>
           </div>

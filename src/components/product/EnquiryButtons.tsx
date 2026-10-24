@@ -46,7 +46,7 @@ export default function EnquiryButtons({
 
       {/* Secondary Direct Call Button */}
       <a
-        href={telUrl}
+        href={siteConfig.contact.phoneHref}
         className="w-full flex items-center justify-center gap-2.5 bg-white hover:bg-[#FAF8F5] text-[#171717] py-3.5 px-6 text-xs uppercase tracking-widest font-semibold border border-[#C4AC8D] hover:border-[#171717] transition-all"
       >
         <Phone className="w-4 h-4 text-[#9B7B50]" />

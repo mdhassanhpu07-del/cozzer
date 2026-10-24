@@ -74,7 +74,7 @@ export default function ProductDetailClient({
           {/* Header Info */}
           <div className="space-y-3 pb-6 border-b border-[#EAE4D8]">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
                 {product.category?.name || "Luxury Footwear"}
               </span>
               <span className="font-mono text-xs text-stone-500 bg-[#FAF8F5] border border-[#EAE4D8] px-2 py-0.5">
@@ -82,27 +82,27 @@ export default function ProductDetailClient({
               </span>
             </div>
 
-            <h1 className="font-serif-luxury text-3xl md:text-4xl text-[#171717] font-normal leading-tight">
+            <h1 className="font-sans text-[clamp(1.85rem,3.2vw+0.5rem,2.5rem)] text-[#171717] font-bold leading-[1.15] tracking-[-0.025em]">
               {product.name}
             </h1>
 
             {/* Pricing Section */}
             <div className="flex items-baseline gap-3 pt-2">
-              <span className="font-semibold text-2xl md:text-3xl text-[#171717]">
+              <span className="font-sans font-bold text-2xl md:text-3xl text-[#171717] tracking-[-0.02em]">
                 {formatCurrency(product.price)}
               </span>
               {product.mrp && product.mrp > product.price && (
-                <span className="text-base text-stone-400 line-through">
+                <span className="text-base text-stone-400 font-normal line-through">
                   {formatCurrency(product.mrp)}
                 </span>
               )}
               {discount && (
-                <span className="bg-[#9B7B50] text-white text-[10px] uppercase font-bold tracking-widest px-2 py-0.5">
+                <span className="bg-[#9B7B50] text-white text-[10px] uppercase font-semibold tracking-[0.18em] px-2 py-0.5">
                   Save {discount}%
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-stone-500 tracking-wide">
+            <p className="text-[11px] text-stone-500 tracking-wide font-normal">
               Catalogue list price. Inclusive of all Indian GST & luxury cess.
             </p>
           </div>
@@ -157,10 +157,10 @@ export default function ProductDetailClient({
         <section className="space-y-8 pt-12 border-t border-[#EAE4D8]">
           <div className="flex justify-between items-end">
             <div>
-              <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
                 From the Same Collection
               </span>
-              <h2 className="font-serif-luxury text-2xl md:text-3xl text-[#171717] font-normal">
+              <h2 className="font-sans text-2xl md:text-3xl text-[#171717] font-bold tracking-[-0.02em]">
                 Complementary Silhouettes
               </h2>
             </div>

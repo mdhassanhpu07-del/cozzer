@@ -91,7 +91,7 @@ export default function CsvImporter() {
               Official COZZER CSV Import Template
             </h3>
           </div>
-          <p className="text-xs text-stone-500 font-light max-w-xl leading-relaxed">
+          <p className="text-xs text-stone-500 font-normal max-w-xl leading-relaxed">
             Download our pre-structured template formatted with columns for SKU, name, category, prices, size/colour matrix, and imagery.
           </p>
         </div>
@@ -113,10 +113,10 @@ export default function CsvImporter() {
         </div>
 
         <div className="space-y-1">
-          <h4 className="font-serif-luxury text-lg text-[#171717]">
+          <h4 className="font-sans font-bold text-lg text-[#171717] tracking-[-0.015em]">
             Upload Footwear Catalogue CSV File
           </h4>
-          <p className="text-xs text-stone-500 font-light">
+          <p className="text-xs text-stone-500 font-normal">
             Select a UTF-8 encoded .csv file containing product listings and variant definitions.
           </p>
         </div>
@@ -156,10 +156,10 @@ export default function CsvImporter() {
         <div className="bg-white border border-[#EAE4D8] p-6 space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-3 border-b border-[#EAE4D8]">
             <div>
-              <h3 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+              <h3 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
                 Pre-Flight Import Preview ({parsedRows.length} Rows)
               </h3>
-              <p className="text-xs text-stone-500 font-light">
+              <p className="text-xs text-stone-500 font-normal">
                 Inspect rows before writing to the database.
               </p>
             </div>
@@ -237,10 +237,10 @@ export default function CsvImporter() {
                 </div>
               )}
               <div>
-                <h3 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+                <h3 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
                   Import Execution Report
                 </h3>
-                <p className="text-xs text-stone-500 font-light">
+                <p className="text-xs text-stone-500 font-normal">
                   Successfully imported {result.importedCount} products. {result.skippedCount} rows skipped due to validation issues.
                 </p>
               </div>

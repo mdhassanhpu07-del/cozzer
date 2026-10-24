@@ -16,13 +16,13 @@ export default function AboutPage() {
       {/* Header Banner */}
       <section className="relative bg-[#171717] text-white py-20 px-4 md:px-8 text-center border-b border-[#2A2927]">
         <div className="container mx-auto max-w-3xl space-y-4">
-          <span className="text-xs uppercase tracking-[0.3em] text-[#9B7B50] font-bold">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
             The Atelier Story
           </span>
-          <h1 className="font-display text-3xl sm:text-5xl font-bold uppercase tracking-tight">
+          <h1 className="font-sans text-[clamp(2.25rem,4.5vw+0.5rem,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[1.08]">
             The Architecture of Footwear
           </h1>
-          <p className="text-stone-300 text-sm md:text-base font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="text-stone-300 text-sm md:text-base font-normal leading-relaxed max-w-2xl mx-auto">
             COZZER was founded on a singular conviction: luxury footwear should balance the quiet confidence of sculptural design with the enduring stamina of master craftsmanship.
           </p>
         </div>
@@ -32,13 +32,13 @@ export default function AboutPage() {
       <section className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="space-y-6">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
               Our Genesis
             </span>
-            <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal leading-snug">
+            <h2 className="font-sans text-[clamp(1.75rem,3vw+0.5rem,2.5rem)] text-[#171717] font-bold leading-[1.15] tracking-[-0.025em]">
               A Reimagining of Contemporary Indian Luxury
             </h2>
-            <div className="space-y-4 text-stone-600 text-sm leading-relaxed font-light">
+            <div className="space-y-4 text-stone-600 text-sm leading-relaxed font-normal">
               <p>
                 India has fostered a formidable legacy of leathercraft for generations, yet discerning modern gentlemen often found themselves caught between fast-fashion compromises and inflated imported labels.
               </p>
@@ -67,13 +67,13 @@ export default function AboutPage() {
       <section id="craftsmanship" className="bg-[#FAF8F5] py-20 border-y border-[#EAE4D8]">
         <div className="container mx-auto px-4 md:px-8 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
               Core Principles
             </span>
-            <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal">
+            <h2 className="font-sans text-[clamp(1.75rem,3vw+0.5rem,2.35rem)] text-[#171717] font-bold leading-[1.18] tracking-[-0.025em]">
               The Pillars of COZZER Construction
             </h2>
-            <p className="text-stone-500 text-xs font-light">
+            <p className="text-stone-500 text-xs sm:text-[13px] font-normal">
               Every design in our master catalogue must satisfy four rigorous engineering standards before entering production.
             </p>
           </div>
@@ -81,40 +81,40 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white p-6 border border-[#EAE4D8] space-y-3 shadow-sm">
               <ShieldCheck className="w-6 h-6 text-[#9B7B50]" />
-              <h3 className="font-semibold text-sm uppercase tracking-wider text-[#171717]">
+              <h3 className="font-bold text-sm uppercase tracking-wider text-[#171717]">
                 Vegetable-Tanned Leathers
               </h3>
-              <p className="text-stone-500 text-xs leading-relaxed font-light">
+              <p className="text-stone-500 text-xs leading-relaxed font-normal">
                 We utilize full-grain crust and Nappa hides tanned with natural tree barks and oils, ensuring supple breathability that molds to your unique foot anatomy.
               </p>
             </div>
 
             <div className="bg-white p-6 border border-[#EAE4D8] space-y-3 shadow-sm">
               <Compass className="w-6 h-6 text-[#9B7B50]" />
-              <h3 className="font-semibold text-sm uppercase tracking-wider text-[#171717]">
+              <h3 className="font-bold text-sm uppercase tracking-wider text-[#171717]">
                 Architectural Lasts
               </h3>
-              <p className="text-stone-500 text-xs leading-relaxed font-light">
+              <p className="text-stone-500 text-xs leading-relaxed font-normal">
                 Developed in-house, our proprietary lasts accommodate both standard and broader Indian foot profiles, mitigating pressure points at the metatarsal arches.
               </p>
             </div>
 
             <div className="bg-white p-6 border border-[#EAE4D8] space-y-3 shadow-sm">
               <Sparkles className="w-6 h-6 text-[#9B7B50]" />
-              <h3 className="font-semibold text-sm uppercase tracking-wider text-[#171717]">
+              <h3 className="font-bold text-sm uppercase tracking-wider text-[#171717]">
                 Artisanal Patina
               </h3>
-              <p className="text-stone-500 text-xs leading-relaxed font-light">
+              <p className="text-stone-500 text-xs leading-relaxed font-normal">
                 Rather than uniform synthetic dyes, each formal shoe and boot is hand-finished with layers of wax and alcohol dyes, producing depth and dimensional lustre.
               </p>
             </div>
 
             <div className="bg-white p-6 border border-[#EAE4D8] space-y-3 shadow-sm">
               <Award className="w-6 h-6 text-[#9B7B50]" />
-              <h3 className="font-semibold text-sm uppercase tracking-wider text-[#171717]">
+              <h3 className="font-bold text-sm uppercase tracking-wider text-[#171717]">
                 Longevity & Resoling
               </h3>
-              <p className="text-stone-500 text-xs leading-relaxed font-light">
+              <p className="text-stone-500 text-xs leading-relaxed font-normal">
                 Reinforced Blake stitching and Goodyear welting allow our shoes to be resoled and restored, making them an enduring investment for years to come.
               </p>
             </div>
@@ -124,10 +124,10 @@ export default function AboutPage() {
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 md:px-8 text-center max-w-3xl space-y-6">
-        <h2 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal">
+        <h2 className="font-sans text-[clamp(1.75rem,3vw+0.5rem,2.35rem)] text-[#171717] font-bold leading-[1.18] tracking-[-0.025em]">
           Experience COZZER In Person or Consult Online
         </h2>
-        <p className="text-stone-600 text-sm font-light">
+        <p className="text-stone-600 text-sm font-normal">
           Browse our catalogue, enquire about bespoke sizings, or schedule a consultation with our footwear specialist.
         </p>
         <div className="flex flex-wrap justify-center gap-4 pt-2">

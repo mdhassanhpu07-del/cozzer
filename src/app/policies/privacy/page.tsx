@@ -10,22 +10,22 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="container mx-auto px-4 md:px-8 py-16 max-w-3xl space-y-8">
       <div className="border-b border-[#EAE4D8] pb-6 space-y-2">
-        <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+        <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
           Data Governance
         </span>
-        <h1 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal">
+        <h1 className="font-sans text-3xl sm:text-4xl text-[#171717] font-bold tracking-[-0.02em]">
           Privacy Policy
         </h1>
-        <p className="text-stone-500 text-xs">Last Updated: October 2025</p>
+        <p className="text-stone-500 text-xs font-normal">Last Updated: October 2025</p>
       </div>
 
-      <div className="prose prose-stone text-xs sm:text-sm leading-relaxed space-y-6 text-stone-700">
+      <div className="prose prose-stone text-xs sm:text-sm leading-relaxed space-y-6 text-stone-700 font-normal">
         <p>
           At <strong>COZZER</strong>, we hold client discretion and privacy in the highest regard. This Privacy Policy outlines how information is gathered and used when you interact with our catalogue website.
         </p>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             1. Information We Do Not Collect
           </h2>
           <p>
@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             2. Enquiry & WhatsApp Communications
           </h2>
           <p>
@@ -43,7 +43,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             3. Analytics & Cookies
           </h2>
           <p>
@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             4. Contact
           </h2>
           <p>

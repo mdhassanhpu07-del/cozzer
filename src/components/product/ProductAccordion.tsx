@@ -22,7 +22,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
       <div className="py-4">
         <button
           onClick={() => toggle("details")}
-          className="w-full flex items-center justify-between text-left font-serif-luxury font-medium text-base text-[#171717] hover:text-[#9B7B50]"
+          className="w-full flex items-center justify-between text-left font-sans font-semibold text-sm sm:text-base text-[#171717] hover:text-[#9B7B50] tracking-[-0.01em]"
         >
           <span className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#9B7B50]" />
@@ -36,7 +36,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
           />
         </button>
         {openSection === "details" && (
-          <div className="pt-3 pb-1 text-stone-600 text-xs leading-relaxed font-light">
+          <div className="pt-3 pb-1 text-stone-600 text-xs sm:text-[13px] leading-relaxed font-normal">
             <p>{description || "Crafted with painstaking attention to detail and balance."}</p>
           </div>
         )}
@@ -46,7 +46,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
       <div className="py-4">
         <button
           onClick={() => toggle("materials")}
-          className="w-full flex items-center justify-between text-left font-serif-luxury font-medium text-base text-[#171717] hover:text-[#9B7B50]"
+          className="w-full flex items-center justify-between text-left font-sans font-semibold text-sm sm:text-base text-[#171717] hover:text-[#9B7B50] tracking-[-0.01em]"
         >
           <span className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-[#9B7B50]" />
@@ -60,16 +60,16 @@ export default function ProductAccordion({ description, material }: ProductAccor
           />
         </button>
         {openSection === "materials" && (
-          <div className="pt-3 pb-1 text-stone-600 text-xs leading-relaxed font-light space-y-2">
+          <div className="pt-3 pb-1 text-stone-600 text-xs sm:text-[13px] leading-relaxed font-normal space-y-2">
             <p>
-              <strong className="text-stone-800 font-medium">Upper Material:</strong>{" "}
+              <strong className="text-stone-800 font-semibold">Upper Material:</strong>{" "}
               {material || "Finest Selected Leathers and Durable Textiles"}
             </p>
             <p>
-              <strong className="text-stone-800 font-medium">Lining:</strong> Breathable moisture-wicking calfskin lining with cushioned anti-shock insole.
+              <strong className="text-stone-800 font-semibold">Lining:</strong> Breathable moisture-wicking calfskin lining with cushioned anti-shock insole.
             </p>
             <p>
-              <strong className="text-stone-800 font-medium">Finishing:</strong> Hand-burnished by master artisans to create a rich, distinctive surface patina.
+              <strong className="text-stone-800 font-semibold">Finishing:</strong> Hand-burnished by master artisans to create a rich, distinctive surface patina.
             </p>
           </div>
         )}
@@ -79,7 +79,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
       <div className="py-4">
         <button
           onClick={() => toggle("sizing")}
-          className="w-full flex items-center justify-between text-left font-serif-luxury font-medium text-base text-[#171717] hover:text-[#9B7B50]"
+          className="w-full flex items-center justify-between text-left font-sans font-semibold text-sm sm:text-base text-[#171717] hover:text-[#9B7B50] tracking-[-0.01em]"
         >
           <span className="flex items-center gap-2">
             <Ruler className="w-4 h-4 text-[#9B7B50]" />
@@ -94,7 +94,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
         </button>
         {openSection === "sizing" && (
           <div className="pt-3 pb-1 text-xs text-stone-600 space-y-3">
-            <p className="font-light">
+            <p className="font-normal">
               COZZER footwear adheres to standard UK/Indian footwear measurements. If you are in between sizes, we recommend contacting our WhatsApp concierge for a personalised fit recommendation.
             </p>
 
@@ -156,7 +156,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
       <div className="py-4">
         <button
           onClick={() => toggle("shipping")}
-          className="w-full flex items-center justify-between text-left font-serif-luxury font-medium text-base text-[#171717] hover:text-[#9B7B50]"
+          className="w-full flex items-center justify-between text-left font-sans font-semibold text-sm sm:text-base text-[#171717] hover:text-[#9B7B50] tracking-[-0.01em]"
         >
           <span className="flex items-center gap-2">
             <Truck className="w-4 h-4 text-[#9B7B50]" />
@@ -170,7 +170,7 @@ export default function ProductAccordion({ description, material }: ProductAccor
           />
         </button>
         {openSection === "shipping" && (
-          <div className="pt-3 pb-1 text-stone-600 text-xs leading-relaxed font-light space-y-2">
+          <div className="pt-3 pb-1 text-stone-600 text-xs sm:text-[13px] leading-relaxed font-normal space-y-2">
             <p>
               In-stock pairs are prepared and dispatched within 24 to 48 hours via premium express air couriers across India.
             </p>

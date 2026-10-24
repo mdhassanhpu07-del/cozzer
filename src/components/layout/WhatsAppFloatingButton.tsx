@@ -18,7 +18,7 @@ export default function WhatsAppFloatingButton() {
     <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
       {/* Floating Prompt Bubble */}
       {showTooltip && (
-        <div className="relative mb-3 bg-[#171717] text-white text-xs py-2 px-3.5 rounded-lg shadow-xl border border-[#9B7B50]/50 max-w-xs animate-bounce flex items-center gap-2">
+        <div className="relative mb-3 bg-[#171717] text-white text-xs py-2 px-3.5 rounded-lg shadow-xl border border-[#9B7B50]/50 max-w-xs animate-fadeInUp motion-reduce:animate-none flex items-center gap-2">
           <span>Enquire about sizes, prices & wholesale on WhatsApp</span>
           <button
             onClick={() => setShowTooltip(false)}

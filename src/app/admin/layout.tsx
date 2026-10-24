@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { AdminSidebarProvider } from "@/components/admin/AdminSidebarContext";
 import { getAdminSession } from "@/lib/auth/admin-auth";
 
 export default function AdminLayout({
@@ -48,14 +49,16 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] flex">
-      {/* Fixed/Sticky Admin Sidebar */}
-      <AdminSidebar />
+    <AdminSidebarProvider>
+      <div className="min-h-screen bg-[#FAF8F5] flex flex-row relative antialiased">
+        {/* Fixed/Sticky Admin Sidebar (desktop) & Drawer (mobile) */}
+        <AdminSidebar />
 
-      {/* Main Admin Content Body */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <main className="flex-1 p-6 md:p-8">{children}</main>
+        {/* Main Admin Content Body */}
+        <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none">
+          <main className="flex-1 p-4 sm:p-6 md:p-8 min-w-0">{children}</main>
+        </div>
       </div>
-    </div>
+    </AdminSidebarProvider>
   );
 }

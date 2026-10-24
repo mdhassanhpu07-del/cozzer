@@ -40,10 +40,10 @@ export default function DeleteConfirmModal({
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+            <h3 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
               {title}
             </h3>
-            <p className="text-xs text-stone-600 leading-relaxed font-light">
+            <p className="text-xs text-stone-600 leading-relaxed font-normal">
               {message}
             </p>
           </div>

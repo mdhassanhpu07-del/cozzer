@@ -33,9 +33,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ["var(--font-playfair)", "Georgia", "serif"],
-        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
-        display: ["var(--font-cinzel)", "var(--font-playfair)", "Georgia", "serif"],
+        sans: ["'Plus Jakarta Sans'", "system-ui", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        display: ["'Plus Jakarta Sans'", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["'Plus Jakarta Sans'", "Georgia", "serif"],
       },
       boxShadow: {
         luxury: "0 10px 30px -10px rgba(23, 23, 23, 0.08)",
@@ -43,6 +43,11 @@ const config: Config = {
         bronze: "0 4px 20px -2px rgba(155, 123, 80, 0.25)",
       },
       letterSpacing: {
+        tightest: "-0.04em",
+        tighthead: "-0.03em",
+        head: "-0.02em",
+        eyebrow: "0.2em",
+        wordmark: "0.2em",
         widestx2: "0.25em",
         brand: "0.2em",
       },

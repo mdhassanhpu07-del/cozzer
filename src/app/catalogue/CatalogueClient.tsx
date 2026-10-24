@@ -44,6 +44,9 @@ export default function CatalogueClient({
     inStockOnly: inStockParam,
   });
 
+  const [searchInputValue, setSearchInputValue] = useState(queryParam);
+  const isInitialMount = React.useRef(true);
+
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [total, setTotal] = useState(initialTotal);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
@@ -53,6 +56,7 @@ export default function CatalogueClient({
 
   // Sync state when URL params change
   useEffect(() => {
+    setSearchInputValue(queryParam);
     setFilters({
       categorySlug: categoryParam,
       searchQuery: queryParam,
@@ -64,8 +68,37 @@ export default function CatalogueClient({
     setCurrentPage(pageParam);
   }, [categoryParam, queryParam, sortParam, minPriceParam, maxPriceParam, inStockParam, pageParam]);
 
-  // Execute fetch when filters or page changes
+  // Debounce search input to prevent rapid, unnecessary database/memory queries
   useEffect(() => {
+    if (searchInputValue === filters.searchQuery) return;
+    const timer = setTimeout(() => {
+      const next = { ...filters, searchQuery: searchInputValue };
+      setFilters(next);
+      setCurrentPage(1);
+      updateUrlParams(next, 1);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchInputValue, filters]);
+
+  // Execute fetch when filters or page changes, skipping redundant initial fetch
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      const isInitialMatch =
+        filters.categorySlug === categoryParam &&
+        filters.searchQuery === queryParam &&
+        filters.sortBy === sortParam &&
+        filters.minPrice === minPriceParam &&
+        filters.maxPrice === maxPriceParam &&
+        filters.inStockOnly === inStockParam &&
+        currentPage === pageParam;
+
+      if (isInitialMatch) {
+        return;
+      }
+    }
+
     let isMounted = true;
     setIsLoading(true);
 
@@ -103,7 +136,7 @@ export default function CatalogueClient({
     if (page > 1) params.set("page", page.toString());
 
     startTransition(() => {
-      router.push(`/catalogue?${params.toString()}`);
+      router.replace(`/catalogue?${params.toString()}`, { scroll: false });
     });
   };
 
@@ -115,6 +148,7 @@ export default function CatalogueClient({
   };
 
   const handleResetFilters = () => {
+    setSearchInputValue("");
     const reset: FilterState = {
       categorySlug: "",
       searchQuery: "",
@@ -134,15 +168,15 @@ export default function CatalogueClient({
     <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 space-y-8">
       {/* Page Header */}
       <div className="border-b border-[#EAE4D8] pb-6 space-y-2">
-        <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+        <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
           The Master Catalogue
         </span>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h1 className="font-serif-luxury text-3xl md:text-4xl text-[#171717] font-normal">
+            <h1 className="font-sans text-[clamp(1.85rem,3.2vw+0.5rem,2.5rem)] text-[#171717] font-bold leading-[1.15] tracking-[-0.025em]">
               {activeCategory ? activeCategory.name : "All Footwear Silhouettes"}
             </h1>
-            <p className="text-stone-500 text-xs font-light max-w-xl mt-1">
+            <p className="text-stone-600 text-xs sm:text-[13px] font-normal max-w-xl mt-1 leading-relaxed">
               {activeCategory?.description ||
                 "Browse our complete collection of handcrafted casuals, formal oxfords, loafers, boots, kids' footwear, and ceremonial juttis."}
             </p>
@@ -160,16 +194,20 @@ export default function CatalogueClient({
         <div className="relative flex-1 max-w-md">
           <input
             type="text"
-            value={filters.searchQuery}
-            onChange={(e) => handleFilterChange({ searchQuery: e.target.value })}
+            value={searchInputValue}
+            onChange={(e) => setSearchInputValue(e.target.value)}
             placeholder="Search by shoe name or SKU..."
             className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-4 py-2 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
           />
           <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          {filters.searchQuery && (
+          {searchInputValue && (
             <button
-              onClick={() => handleFilterChange({ searchQuery: "" })}
+              onClick={() => {
+                setSearchInputValue("");
+                handleFilterChange({ searchQuery: "" });
+              }}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+              aria-label="Clear search input"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -336,7 +374,7 @@ export default function CatalogueClient({
               <div className="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#C4AC8D] flex items-center justify-center mx-auto text-[#9B7B50]">
                 <Search className="w-6 h-6" />
               </div>
-              <h3 className="font-serif-luxury text-xl text-[#171717] font-medium">
+              <h3 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
                 No Footwear Silhouettes Found
               </h3>
               <p className="text-stone-500 text-xs max-w-md mx-auto leading-relaxed">

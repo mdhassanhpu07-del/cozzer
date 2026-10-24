@@ -11,6 +11,7 @@ import {
   Send,
   Building2,
   Sparkles,
+  ExternalLink,
 } from "lucide-react";
 
 export default function ContactClient() {
@@ -43,13 +44,13 @@ export default function ContactClient() {
     <div className="container mx-auto px-4 md:px-8 py-12 md:py-16 space-y-16">
       {/* Page Title */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <span className="text-xs uppercase tracking-[0.3em] text-[#9B7B50] font-bold">
+        <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
           Client Concierge
         </span>
-        <h1 className="font-serif-luxury text-3xl sm:text-5xl text-[#171717] font-normal">
+        <h1 className="font-sans text-[clamp(2.25rem,4.5vw+0.5rem,3.75rem)] text-[#171717] font-extrabold tracking-[-0.03em] leading-[1.08]">
           Contact The House of COZZER
         </h1>
-        <p className="text-stone-500 text-xs sm:text-sm font-light leading-relaxed">
+        <p className="text-stone-600 text-xs sm:text-sm font-normal leading-relaxed">
           Our footwear specialists are available to answer inquiries regarding sizes, custom requests, catalogue releases, and retail wholesale opportunities.
         </p>
       </div>
@@ -59,7 +60,7 @@ export default function ContactClient() {
         {/* Left Column: Direct Contact Info (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white border border-[#EAE4D8] p-6 sm:p-8 space-y-6 shadow-sm">
-            <h2 className="font-serif-luxury text-xl font-medium text-[#171717] pb-3 border-b border-[#EAE4D8]">
+            <h2 className="font-sans text-xl font-bold text-[#171717] pb-3 border-b border-[#EAE4D8] tracking-[-0.015em]">
               Direct Assistance Channels
             </h2>
 
@@ -69,7 +70,7 @@ export default function ContactClient() {
                 <MessageCircle className="w-4 h-4 text-[#25D366]" />
                 <span>Instant WhatsApp Concierge</span>
               </div>
-              <p className="text-stone-500 text-xs font-light">
+              <p className="text-stone-500 text-xs font-normal">
                 Average response time: Under 15 minutes during studio hours.
               </p>
               <a
@@ -91,7 +92,7 @@ export default function ContactClient() {
                 Direct Telephone
               </span>
               <a
-                href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
+                href={siteConfig.contact.phoneHref}
                 className="text-base text-[#171717] font-medium hover:text-[#9B7B50] flex items-center gap-2 transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#9B7B50]" />
@@ -113,14 +114,25 @@ export default function ContactClient() {
               </a>
             </div>
 
-            {/* Showroom Address */}
+            {/* Business Address */}
             <div className="space-y-1">
               <span className="text-[11px] text-stone-400 uppercase tracking-wider font-semibold block">
-                Experience Studio & Atelier
+                Business Address
               </span>
-              <div className="text-xs text-stone-600 font-light flex items-start gap-2 leading-relaxed">
+              <div className="text-xs text-stone-600 font-normal flex items-start gap-2 leading-relaxed">
                 <MapPin className="w-4 h-4 text-[#9B7B50] flex-shrink-0 mt-0.5" />
-                <span>{siteConfig.contact.address}</span>
+                <div className="flex flex-col gap-1.5">
+                  <span className="break-words leading-relaxed">{siteConfig.contact.address}</span>
+                  <a
+                    href={siteConfig.contact.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-[#9B7B50] hover:text-[#7D623C] font-semibold transition-colors w-fit pt-0.5"
+                  >
+                    <span>Get Directions on Google Maps</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -129,7 +141,7 @@ export default function ContactClient() {
               <span className="text-[11px] text-stone-400 uppercase tracking-wider font-semibold block">
                 Concierge Hours
               </span>
-              <div className="text-xs text-stone-600 font-light flex items-center gap-2">
+              <div className="text-xs text-stone-600 font-normal flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[#9B7B50] flex-shrink-0" />
                 <span>{siteConfig.contact.businessHours}</span>
               </div>
@@ -143,7 +155,7 @@ export default function ContactClient() {
               <span className="font-semibold text-[#171717] block">
                 Wholesale & Multi-Brand Inquiries?
               </span>
-              <p className="text-stone-500 font-light">
+              <p className="text-stone-500 font-normal">
                 For retailer accounts, bulk catalogues, and distribution terms, please visit our wholesale section.
               </p>
               <a href="/wholesale" className="text-[#9B7B50] hover:underline font-bold block pt-1">
@@ -156,13 +168,13 @@ export default function ContactClient() {
         {/* Right Column: Interactive Consultation Composer (7 cols) */}
         <div className="lg:col-span-7 bg-white border border-[#EAE4D8] p-6 sm:p-10 shadow-sm space-y-6">
           <div className="space-y-1 border-b border-[#EAE4D8] pb-4">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+            <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
               Direct Route
             </span>
-            <h2 className="font-serif-luxury text-2xl font-normal text-[#171717]">
+            <h2 className="font-sans text-2xl font-bold text-[#171717] tracking-[-0.02em]">
               Compose a Consultation Message
             </h2>
-            <p className="text-stone-500 text-xs font-light">
+            <p className="text-stone-600 text-xs sm:text-[13px] font-normal leading-relaxed">
               This will format your enquiry and open a direct WhatsApp consultation thread with our team.
             </p>
           </div>
@@ -191,7 +203,7 @@ export default function ContactClient() {
                   type="tel"
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="e.g. +91 98765 43210"
+                  placeholder="e.g. 9997373342"
                   className="w-full bg-[#FAF8F5] border border-[#C4AC8D] px-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
                 />
               </div>

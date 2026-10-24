@@ -11,6 +11,18 @@ const LOCAL_STORAGE_CATEGORIES_KEY = "cozzer_local_categories_v1";
 let memoryProducts: Product[] = [...DEMO_PRODUCTS];
 let memoryCategories: Category[] = [...DEMO_CATEGORIES];
 
+// Query and data caches for fast repeated access & deduplication
+const productsQueryCache = new Map<string, { data: GetProductsResponse; timestamp: number }>();
+let categoriesCache: { data: Category[]; timestamp: number } | null = null;
+const singleProductCache = new Map<string, { data: Product | null; timestamp: number }>();
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds TTL
+
+export function clearProductsCache() {
+  productsQueryCache.clear();
+  categoriesCache = null;
+  singleProductCache.clear();
+}
+
 function getStoredProducts(): Product[] {
   if (typeof window !== "undefined") {
     try {
@@ -27,6 +39,7 @@ function getStoredProducts(): Product[] {
 
 function setStoredProducts(products: Product[]) {
   memoryProducts = [...products];
+  clearProductsCache();
   if (typeof window !== "undefined") {
     try {
       localStorage.setItem(LOCAL_STORAGE_PRODUCTS_KEY, JSON.stringify(products));
@@ -52,6 +65,7 @@ function getStoredCategories(): Category[] {
 
 function setStoredCategories(categories: Category[]) {
   memoryCategories = [...categories];
+  clearProductsCache();
   if (typeof window !== "undefined") {
     try {
       localStorage.setItem(LOCAL_STORAGE_CATEGORIES_KEY, JSON.stringify(categories));
@@ -65,21 +79,29 @@ function setStoredCategories(categories: Category[]) {
  * Fetch all categories
  */
 export async function getCategories(): Promise<Category[]> {
+  const now = Date.now();
+  if (categoriesCache && now - categoriesCache.timestamp < CACHE_TTL_MS) {
+    return categoriesCache.data;
+  }
+
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase
         .from("categories")
-        .select("*")
+        .select("id, name, slug, description, image_url, display_order, created_at, updated_at")
         .order("display_order", { ascending: true });
 
       if (!error && data && data.length > 0) {
+        categoriesCache = { data: data as Category[], timestamp: now };
         return data as Category[];
       }
     } catch (e) {
       console.warn("Supabase fetch failed, falling back to local categories", e);
     }
   }
-  return getStoredCategories();
+  const stored = getStoredCategories();
+  categoriesCache = { data: stored, timestamp: now };
+  return stored;
 }
 
 /**
@@ -125,18 +147,39 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
     includeDrafts = false,
   } = options;
 
+  // Use fast in-memory query cache for public storefront queries (skip for admin draft view)
+  const cacheKey = JSON.stringify(options);
+  const now = Date.now();
+  if (!includeDrafts) {
+    const cached = productsQueryCache.get(cacheKey);
+    if (cached && now - cached.timestamp < CACHE_TTL_MS) {
+      return cached.data;
+    }
+  }
+
   let allProducts = getStoredProducts();
 
   // If Supabase is configured and reachable
   if (isSupabaseConfigured && supabase) {
     try {
+      // Select only the columns needed for catalogue cards rather than all raw text & metadata
       let query = supabase
         .from("products")
         .select(`
-          *,
-          category:categories(*),
-          variants:product_variants(*),
-          images:product_images(*)
+          id,
+          name,
+          slug,
+          sku,
+          category_id,
+          material,
+          price,
+          mrp,
+          is_published,
+          is_featured,
+          created_at,
+          category:categories(id, name, slug),
+          variants:product_variants(id, size, colour, colour_code, stock_quantity, is_available),
+          images:product_images(id, image_url, alt_text, display_order, is_primary)
         `, { count: "exact" });
 
       if (!includeDrafts) {
@@ -179,18 +222,26 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
       const { data, count, error } = await query.range(from, to);
 
       if (!error && data) {
-        let items = data as Product[];
+        let items: Product[] = (data as any[]).map((p) => ({
+          ...p,
+          category: Array.isArray(p.category) ? p.category[0] || null : p.category,
+        }));
         if (inStockOnly) {
           items = items.filter((p) =>
             p.variants?.some((v) => v.is_available && v.stock_quantity > 0)
           );
         }
-        return {
+        const response: GetProductsResponse = {
           products: items,
           total: count ?? items.length,
           page,
-          totalPages: Math.ceil((count ?? items.length) / limit),
+          totalPages: Math.ceil((count ?? items.length) / limit) || 1,
         };
+
+        if (!includeDrafts) {
+          productsQueryCache.set(cacheKey, { data: response, timestamp: now });
+        }
+        return response;
       }
     } catch (e) {
       console.warn("Supabase products fetch failed, falling back to local dataset", e);
@@ -250,18 +301,30 @@ export async function getProducts(options: GetProductsOptions = {}): Promise<Get
   const from = (page - 1) * limit;
   const paginated = filtered.slice(from, from + limit);
 
-  return {
+  const response: GetProductsResponse = {
     products: paginated,
     total,
     page,
     totalPages: Math.ceil(total / limit) || 1,
   };
+
+  if (!includeDrafts) {
+    productsQueryCache.set(cacheKey, { data: response, timestamp: now });
+  }
+
+  return response;
 }
 
 /**
  * Fetch a single product by slug
  */
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const now = Date.now();
+  const cached = singleProductCache.get(`slug:${slug}`);
+  if (cached && now - cached.timestamp < CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase
@@ -276,7 +339,13 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
         .single();
 
       if (!error && data) {
-        return data as Product;
+        const raw = data as any;
+        const prod: Product = {
+          ...raw,
+          category: Array.isArray(raw.category) ? raw.category[0] || null : raw.category,
+        };
+        singleProductCache.set(`slug:${slug}`, { data: prod, timestamp: now });
+        return prod;
       }
     } catch {
       // fallback
@@ -284,13 +353,21 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   const products = getStoredProducts();
-  return products.find((p) => p.slug === slug) || null;
+  const found = products.find((p) => p.slug === slug) || null;
+  singleProductCache.set(`slug:${slug}`, { data: found, timestamp: now });
+  return found;
 }
 
 /**
  * Fetch a single product by ID
  */
 export async function getProductById(id: string): Promise<Product | null> {
+  const now = Date.now();
+  const cached = singleProductCache.get(`id:${id}`);
+  if (cached && now - cached.timestamp < CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   if (isSupabaseConfigured && supabase) {
     try {
       const { data, error } = await supabase
@@ -305,7 +382,13 @@ export async function getProductById(id: string): Promise<Product | null> {
         .single();
 
       if (!error && data) {
-        return data as Product;
+        const raw = data as any;
+        const prod: Product = {
+          ...raw,
+          category: Array.isArray(raw.category) ? raw.category[0] || null : raw.category,
+        };
+        singleProductCache.set(`id:${id}`, { data: prod, timestamp: now });
+        return prod;
       }
     } catch {
       // fallback
@@ -313,7 +396,9 @@ export async function getProductById(id: string): Promise<Product | null> {
   }
 
   const products = getStoredProducts();
-  return products.find((p) => p.id === id) || null;
+  const found = products.find((p) => p.id === id) || null;
+  singleProductCache.set(`id:${id}`, { data: found, timestamp: now });
+  return found;
 }
 
 /**
@@ -324,6 +409,45 @@ export async function getRelatedProducts(
   categoryId?: string | null,
   limit = 4
 ): Promise<Product[]> {
+  if (isSupabaseConfigured && supabase) {
+    try {
+      let query = supabase
+        .from("products")
+        .select(`
+          id,
+          name,
+          slug,
+          sku,
+          category_id,
+          material,
+          price,
+          mrp,
+          is_published,
+          is_featured,
+          created_at,
+          category:categories(id, name, slug),
+          variants:product_variants(id, size, colour, colour_code, stock_quantity, is_available),
+          images:product_images(id, image_url, alt_text, display_order, is_primary)
+        `)
+        .eq("is_published", true)
+        .neq("id", productId);
+
+      if (categoryId) {
+        query = query.eq("category_id", categoryId);
+      }
+
+      const { data, error } = await query.limit(limit);
+      if (!error && data && data.length > 0) {
+        return (data as any[]).map((p) => ({
+          ...p,
+          category: Array.isArray(p.category) ? p.category[0] || null : p.category,
+        })) as Product[];
+      }
+    } catch {
+      // fallback
+    }
+  }
+
   const products = getStoredProducts().filter(
     (p) => p.id !== productId && p.is_published
   );

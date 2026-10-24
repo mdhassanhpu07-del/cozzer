@@ -1,7 +1,7 @@
-// Acceptance & Verification Test Suite for COZZER Footwear
 import { readFileSync, existsSync } from 'fs';
 import { generateWhatsAppEnquiryUrl, generateWholesaleWhatsAppUrl, formatCurrency, calculateDiscount } from '../src/lib/utils';
 import { DEMO_CATEGORIES, DEMO_PRODUCTS } from '../src/lib/data/demo-data';
+import { siteConfig } from '../src/config/site';
 
 console.log('====================================================');
 console.log(' COZZER FOOTWEAR - ACCEPTANCE TEST SUITE');
@@ -128,9 +128,11 @@ for (const p of DEMO_PRODUCTS) {
     allVariantsValid = false;
   }
   // Verify size-wise stock exists
-  for (const v of p.variants) {
-    if (typeof v.stock_quantity !== 'number' || typeof v.is_available !== 'boolean') {
-      hasAccurateStock = false;
+  if (p.variants) {
+    for (const v of p.variants) {
+      if (typeof v.stock_quantity !== 'number' || typeof v.is_available !== 'boolean') {
+        hasAccurateStock = false;
+      }
     }
   }
 }
@@ -167,6 +169,106 @@ assert(envExample.includes('NEXT_PUBLIC_SUPABASE_URL'), '.env.example documents 
 assert(envExample.includes('NEXT_PUBLIC_SUPABASE_ANON_KEY'), '.env.example documents NEXT_PUBLIC_SUPABASE_ANON_KEY');
 assert(envExample.includes('SUPABASE_SERVICE_ROLE_KEY'), '.env.example documents SUPABASE_SERVICE_ROLE_KEY');
 assert(envExample.includes('NEXT_PUBLIC_WHATSAPP_NUMBER'), '.env.example documents NEXT_PUBLIC_WHATSAPP_NUMBER');
+
+// 8. Test Official Contact Details & Location Experience
+console.log('\n--- Test Suite 8: Official Contact Details & Location Experience ---');
+assert(siteConfig.contact.phone === '9997373342', `Official phone is 9997373342 (got: ${siteConfig.contact.phone})`);
+assert(siteConfig.contact.phoneHref === 'tel:+919997373342', `Phone link is tel:+919997373342 (got: ${siteConfig.contact.phoneHref})`);
+assert(siteConfig.contact.whatsappUrl === 'https://wa.me/919997373342', `WhatsApp link is https://wa.me/919997373342 (got: ${siteConfig.contact.whatsappUrl})`);
+assert(siteConfig.contact.address === 'PQGP+56Q, Sakar Kui masjid, Nabi Karim, Hapur, Uttar Pradesh 245101', `Official address matches exactly (got: ${siteConfig.contact.address})`);
+assert(siteConfig.contact.mapsUrl.includes('google.com/maps/search/'), 'Google Maps search directions link is properly formed');
+
+const footerContent = readFileSync('./src/components/layout/Footer.tsx', 'utf-8');
+assert(footerContent.includes('siteConfig.contact.phoneHref'), 'Footer links directly to phoneHref');
+assert(footerContent.includes('siteConfig.contact.mapsUrl'), 'Footer includes Get Directions map link');
+
+const contactPageContent = readFileSync('./src/app/contact/ContactClient.tsx', 'utf-8');
+assert(contactPageContent.includes('siteConfig.contact.phoneHref'), 'Contact page links directly to phoneHref');
+assert(contactPageContent.includes('siteConfig.contact.mapsUrl'), 'Contact page includes Get Directions link');
+
+// 9. Test Mobile Hamburger Navigation & Animation Standards
+console.log('\n--- Test Suite 9: Mobile Navigation & Animation Standards ---');
+const headerContent = readFileSync('./src/components/layout/Header.tsx', 'utf-8');
+assert(headerContent.includes('aria-expanded={mobileMenuOpen}'), 'Hamburger menu has dynamic aria-expanded attribute');
+assert(headerContent.includes('aria-controls="mobile-navigation-drawer"'), 'Hamburger menu controls mobile-navigation-drawer ID');
+assert(headerContent.includes('overflow = "hidden"'), 'Body scrolling is locked when mobile menu is open');
+assert(headerContent.includes('Escape'), 'Mobile menu responds to keyboard Escape key');
+assert(headerContent.includes('siteConfig.contact.phoneHref'), 'Mobile drawer includes direct phone link');
+assert(headerContent.includes('siteConfig.contact.whatsappUrl'), 'Mobile drawer includes direct WhatsApp link');
+assert(headerContent.includes('createPortal('), 'Mobile drawer is portaled to document.body to avoid stacking/clipping');
+assert(headerContent.includes('min-h-0 overflow-y-auto'), 'Drawer body has min-h-0 overflow-y-auto for independent scrolling');
+assert(headerContent.includes('100dvh'), 'Drawer uses 100dvh for dynamic mobile viewport height');
+assert(headerContent.includes('href="/"') && headerContent.includes('<span>Home</span>'), 'Drawer includes explicit Home navigation link');
+assert(headerContent.includes('href="/wholesale"'), 'Drawer includes Wholesale link');
+assert(headerContent.includes('href="/about"'), 'Drawer includes About link');
+assert(headerContent.includes('href="/about#craftsmanship"'), 'Drawer includes Craftsmanship link');
+assert(headerContent.includes('href="/contact"'), 'Drawer includes Contact link');
+assert(headerContent.includes('href="/admin"'), 'Drawer includes Admin link');
+assert(headerContent.includes('touchAction = "none"'), 'Body scroll lock disables touchAction to prevent iOS rubber-banding');
+
+const cssContent = readFileSync('./src/app/globals.css', 'utf-8');
+assert(cssContent.includes('prefers-reduced-motion'), 'CSS respects prefers-reduced-motion');
+assert(cssContent.includes('keyframes fadeInUp'), 'CSS defines fadeInUp keyframe animation');
+assert(cssContent.includes('keyframes slideDrawerIn'), 'CSS defines slideDrawerIn mobile drawer animation');
+
+// 10. Check Premium Luxury Typography Standards
+console.log('\n--- Test Suite 10: Luxury Typography Upgrade Standards ---');
+const layoutContent = readFileSync('./src/app/layout.tsx', 'utf-8');
+assert(
+  layoutContent.includes('family=Plus+Jakarta+Sans:wght@400;500;600;700;800'),
+  'Plus Jakarta Sans loaded with all weights 400, 500, 600, 700, 800 without synthetic bold'
+);
+
+const tailwindConfig = readFileSync('./tailwind.config.ts', 'utf-8');
+assert(
+  tailwindConfig.includes("'Plus Jakarta Sans'"),
+  'Tailwind sans font configured to Plus Jakarta Sans'
+);
+
+assert(
+  headerContent.includes('font-sans font-extrabold text-2xl md:text-3xl tracking-[0.2em]') && headerContent.includes('uppercase'),
+  'Brand wordmark: 800 weight, uppercase, refined 0.2em letter spacing'
+);
+
+const homeContent = readFileSync('./src/app/page.tsx', 'utf-8');
+assert(
+  homeContent.includes('font-sans text-[clamp(2.35rem,5.5vw+0.5rem,4.5rem)] font-extrabold tracking-[-0.035em] text-white uppercase leading-[1.06]'),
+  'Main hero heading: 800 weight, 48–72px desktop clamp, responsive mobile sizing, -0.035em tight tracking'
+);
+assert(
+  homeContent.includes('font-sans text-[clamp(1.75rem,3.2vw+0.5rem,2.5rem)] text-[#171717] font-bold leading-[1.15] tracking-[-0.025em]'),
+  'Section headings: 700–800 weight, clamp responsive sizing, tight letter spacing'
+);
+
+const productCardContent = readFileSync('./src/components/catalogue/ProductCard.tsx', 'utf-8');
+assert(
+  productCardContent.includes('font-sans font-bold text-base sm:text-lg text-[#171717]') && productCardContent.includes('tracking-[-0.015em]'),
+  'Product names: 600–700 weight with crisp controlled letter spacing'
+);
+assert(
+  productCardContent.includes('font-sans font-bold text-base sm:text-lg text-[#171717] tracking-[-0.02em]'),
+  'Product prices: 700 weight for emphasis'
+);
+
+assert(
+  headerContent.includes('nav className="hidden md:flex items-center space-x-7 text-xs font-semibold uppercase tracking-wider text-[#171717]"'),
+  'Navigation links: 600 weight'
+);
+
+assert(
+  homeContent.includes('bg-[#9B7B50] hover:bg-[#82653E] text-white px-8 py-4 text-xs uppercase tracking-widest font-bold shadow-lg transition-all duration-300'),
+  'Primary CTA buttons: 700 weight'
+);
+
+assert(
+  homeContent.includes('text-[#F5F1E8]/85 text-sm sm:text-base md:text-lg max-w-2xl mx-auto font-normal leading-relaxed'),
+  'Body text and descriptions: 400–500 weight for comfortable readability'
+);
+
+assert(
+  homeContent.includes('text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold'),
+  'Eyebrow labels: 600 weight, uppercase, subtle positive letter spacing'
+);
 
 console.log('\n====================================================');
 console.log(` RESULTS: ${passCount} PASSED, ${failCount} FAILED`);

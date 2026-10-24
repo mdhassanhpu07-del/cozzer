@@ -191,11 +191,11 @@ SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key-here
 # Configurable Business Contact Information (Displayed across site & WhatsApp)
 NEXT_PUBLIC_COMPANY_NAME="COZZER"
 NEXT_PUBLIC_COMPANY_TAGLINE="Architect of Contemporary Luxury Footwear"
-NEXT_PUBLIC_WHATSAPP_NUMBER="919876543210"
-NEXT_PUBLIC_SUPPORT_PHONE="+91 98765 43210"
+NEXT_PUBLIC_WHATSAPP_NUMBER="919997373342"
+NEXT_PUBLIC_SUPPORT_PHONE="9997373342"
 NEXT_PUBLIC_SUPPORT_EMAIL="concierge@cozzer.in"
 NEXT_PUBLIC_WHOLESALE_EMAIL="wholesale@cozzer.in"
-NEXT_PUBLIC_SHOWROOM_ADDRESS="COZZER Experience Studio, 42 Heritage Boulevard, Indiranagar, Bengaluru, Karnataka 560038, India"
+NEXT_PUBLIC_SHOWROOM_ADDRESS="PQGP+56Q, Sakar Kui masjid, Nabi Karim, Hapur, Uttar Pradesh 245101"
 NEXT_PUBLIC_BUSINESS_HOURS="Monday – Saturday: 10:00 AM – 8:00 PM IST"
 ```
 
@@ -268,7 +268,7 @@ An automated acceptance test suite (`scripts/test-acceptance.ts`) was executed a
 
 Before public launch:
 - [ ] Connect custom domain `cozzer.in` in your host DNS.
-- [ ] Update `NEXT_PUBLIC_WHATSAPP_NUMBER` and `NEXT_PUBLIC_SUPPORT_PHONE` with the live studio phone number.
+- [ ] Verify business contact details (Phone: 9997373342, Address: PQGP+56Q, Sakar Kui masjid, Nabi Karim, Hapur, Uttar Pradesh 245101).
 - [ ] Run `supabase/migrations/01_initial_schema.sql` in your Supabase project.
 - [ ] Create initial administrator user in Supabase Auth -> Users.
 - [ ] Upload final commercial product photos and import your catalogue via `/admin/import`.

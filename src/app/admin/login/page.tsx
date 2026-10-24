@@ -39,15 +39,15 @@ export default function AdminLoginPage() {
         {/* Brand Header */}
         <div className="text-center space-y-3">
           <Link href="/" className="inline-block">
-            <span className="font-display font-extrabold text-3xl tracking-[0.25em] text-white">
+            <span className="font-sans font-extrabold text-3xl tracking-[0.2em] text-white uppercase">
               COZZER
             </span>
           </Link>
           <div className="space-y-1">
-            <h1 className="text-sm font-semibold uppercase tracking-widest text-[#9B7B50]">
+            <h1 className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-[#9B7B50]">
               Administrative Atelier Access
             </h1>
-            <p className="text-stone-400 text-xs font-light">
+            <p className="text-stone-400 text-xs font-normal">
               Secure portal for product cataloguing, inventory, and B2B pricing.
             </p>
           </div>

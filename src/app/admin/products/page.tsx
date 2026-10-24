@@ -30,6 +30,7 @@ export default function AdminProductsPage() {
 
   // Filters
   const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [categorySlug, setCategorySlug] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "published" | "draft">("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,30 +42,47 @@ export default function AdminProductsPage() {
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
 
+  // Fetch categories once on mount
+  useEffect(() => {
+    getCategories().then((cats) => setCategories(cats));
+  }, []);
+
+  // Debounce search query to prevent excessive queries while typing
+  useEffect(() => {
+    if (searchInput === search) return;
+    const timer = setTimeout(() => {
+      setSearch(searchInput);
+      setCurrentPage(1);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchInput, search]);
+
   const loadData = async () => {
     setLoading(true);
-    const cats = await getCategories();
-    setCategories(cats);
+    try {
+      const res = await getProducts({
+        categorySlug: categorySlug || undefined,
+        searchQuery: search || undefined,
+        includeDrafts: true,
+        page: currentPage,
+        limit: 10,
+      });
 
-    const res = await getProducts({
-      categorySlug: categorySlug || undefined,
-      searchQuery: search || undefined,
-      includeDrafts: true,
-      page: currentPage,
-      limit: 10,
-    });
+      let items = res.products;
+      if (statusFilter === "published") {
+        items = items.filter((p) => p.is_published);
+      } else if (statusFilter === "draft") {
+        items = items.filter((p) => !p.is_published);
+      }
 
-    let items = res.products;
-    if (statusFilter === "published") {
-      items = items.filter((p) => p.is_published);
-    } else if (statusFilter === "draft") {
-      items = items.filter((p) => !p.is_published);
+      setProducts(items);
+      setTotal(res.total);
+      setTotalPages(res.totalPages);
+    } catch (err) {
+      console.error("Failed to load admin products", err);
+    } finally {
+      setLoading(false);
     }
-
-    setProducts(items);
-    setTotal(res.total);
-    setTotalPages(res.totalPages);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -113,15 +131,25 @@ export default function AdminProductsPage() {
         <div className="relative flex-1 max-w-sm">
           <input
             type="text"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setCurrentPage(1);
-            }}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search by product name or SKU..."
             className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-4 py-2 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
           />
           <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          {searchInput && (
+            <button
+              onClick={() => {
+                setSearchInput("");
+                setSearch("");
+                setCurrentPage(1);
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700"
+              aria-label="Clear search"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
 
         {/* Category & Status Filters */}
@@ -155,9 +183,10 @@ export default function AdminProductsPage() {
             <option value="draft">Drafts Only</option>
           </select>
 
-          {(search || categorySlug || statusFilter !== "all") && (
+          {(searchInput || search || categorySlug || statusFilter !== "all") && (
             <button
               onClick={() => {
+                setSearchInput("");
                 setSearch("");
                 setCategorySlug("");
                 setStatusFilter("all");
@@ -224,7 +253,7 @@ export default function AdminProductsPage() {
                       <td className="p-3 font-mono font-bold text-[#171717] whitespace-nowrap">
                         {p.sku}
                       </td>
-                      <td className="p-3 font-medium text-[#171717] max-w-xs">
+                      <td className="p-3 font-semibold text-[#171717] max-w-xs">
                         <Link
                           href={`/admin/products/${p.id}/edit`}
                           className="hover:text-[#9B7B50] transition-colors"
@@ -237,10 +266,10 @@ export default function AdminProductsPage() {
                           </span>
                         )}
                       </td>
-                      <td className="p-3 text-stone-600 whitespace-nowrap">
+                      <td className="p-3 text-stone-600 whitespace-nowrap font-normal">
                         {p.category?.name || "Footwear"}
                       </td>
-                      <td className="p-3 font-semibold text-[#171717] whitespace-nowrap">
+                      <td className="p-3 font-bold text-[#171717] whitespace-nowrap">
                         {formatCurrency(p.price)}
                       </td>
                       <td className="p-3 text-stone-400 whitespace-nowrap">

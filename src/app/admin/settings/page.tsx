@@ -31,7 +31,7 @@ export default function AdminSettingsPage() {
         <div className="flex items-center justify-between pb-3 border-b border-[#EAE4D8]">
           <div className="flex items-center gap-2.5">
             <Database className="w-5 h-5 text-[#9B7B50]" />
-            <h2 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+            <h2 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
               Supabase PostgreSQL & Auth Status
             </h2>
           </div>
@@ -56,7 +56,7 @@ export default function AdminSettingsPage() {
           </span>
         </div>
 
-        <p className="text-xs text-stone-600 font-light leading-relaxed">
+        <p className="text-xs text-stone-600 font-normal leading-relaxed">
           {isSupabaseConfigured
             ? "Your Supabase project URL and anonymous API keys are active. Products, variants, categories, and images are synchronized with cloud PostgreSQL."
             : "The application is currently operating in zero-latency preview mode. To connect your cloud database, supply NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file or deployment environment."}
@@ -72,7 +72,7 @@ export default function AdminSettingsPage() {
       <div className="bg-white border border-[#EAE4D8] p-6 space-y-4 shadow-sm">
         <div className="flex items-center gap-2.5 pb-3 border-b border-[#EAE4D8]">
           <Building className="w-5 h-5 text-[#9B7B50]" />
-          <h2 className="font-serif-luxury text-lg font-semibold text-[#171717]">
+          <h2 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
             Configured Business Contact Parameters
           </h2>
         </div>
@@ -132,7 +132,7 @@ export default function AdminSettingsPage() {
 
       {/* Production Launch Checklist */}
       <div className="bg-[#FAF8F5] border-2 border-[#9B7B50]/30 p-6 space-y-4">
-        <h2 className="font-serif-luxury text-xl font-semibold text-[#171717] flex items-center gap-2">
+        <h2 className="font-sans text-xl font-bold text-[#171717] flex items-center gap-2 tracking-[-0.015em]">
           <Shield className="w-5 h-5 text-[#9B7B50]" />
           Production Go-Live Checklist for Brand Owner
         </h2>

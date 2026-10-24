@@ -42,14 +42,14 @@ export default function WholesaleClient() {
       {/* Header Banner */}
       <section className="bg-[#171717] text-white py-16 md:py-24 px-4 md:px-8 border-b border-[#2A2927]">
         <div className="container mx-auto max-w-4xl text-center space-y-4">
-          <div className="inline-flex items-center gap-2 border border-[#9B7B50]/60 bg-black/40 px-3.5 py-1.5 text-xs uppercase tracking-widest text-[#F5F1E8]">
+          <div className="inline-flex items-center gap-2 border border-[#9B7B50]/60 bg-black/40 px-3.5 py-1.5 text-xs uppercase tracking-[0.2em] font-semibold text-[#F5F1E8]">
             <Building2 className="w-3.5 h-3.5 text-[#9B7B50]" />
             <span>B2B Retailer & Distributor Desk</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-5xl font-bold uppercase tracking-tight">
+          <h1 className="font-sans text-[clamp(2.25rem,4.5vw+0.5rem,3.75rem)] font-extrabold uppercase tracking-[-0.03em] leading-[1.08]">
             Wholesale Alliances & Distribution
           </h1>
-          <p className="text-stone-300 text-sm md:text-base font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-stone-300 text-sm md:text-base font-normal max-w-2xl mx-auto leading-relaxed">
             Partner with COZZER to introduce bespoke-grade Indian luxury footwear into your retail stores, multi-brand boutiques, and regional footwear chains.
           </p>
         </div>
@@ -62,10 +62,10 @@ export default function WholesaleClient() {
             <div className="w-10 h-10 rounded-full bg-[#FAF8F5] border border-[#C4AC8D] flex items-center justify-center text-[#9B7B50]">
               <Package className="w-5 h-5" />
             </div>
-            <h3 className="font-serif-luxury text-xl font-medium text-[#171717]">
+            <h3 className="font-sans text-xl font-bold text-[#171717] tracking-[-0.015em]">
               Accessible Low MOQs
             </h3>
-            <p className="text-stone-600 text-xs leading-relaxed font-light">
+            <p className="text-stone-600 text-xs sm:text-[13px] leading-relaxed font-normal">
               We empower independent boutique owners with an entry threshold of just <strong>12 pairs</strong> per silhouette run, across standard Indian size assortments (UK 6 – 11).
             </p>
           </div>
@@ -74,10 +74,10 @@ export default function WholesaleClient() {
             <div className="w-10 h-10 rounded-full bg-[#FAF8F5] border border-[#C4AC8D] flex items-center justify-center text-[#9B7B50]">
               <Percent className="w-5 h-5" />
             </div>
-            <h3 className="font-serif-luxury text-xl font-medium text-[#171717]">
+            <h3 className="font-sans text-xl font-bold text-[#171717] tracking-[-0.015em]">
               Tiered Retail Margins
             </h3>
-            <p className="text-stone-600 text-xs leading-relaxed font-light">
+            <p className="text-stone-600 text-xs sm:text-[13px] leading-relaxed font-normal">
               Structured B2B pricing provides healthy gross margins (35% to 52%) for retail storefronts, supported by strict MAP (Minimum Advertised Price) enforcement.
             </p>
           </div>
@@ -86,10 +86,10 @@ export default function WholesaleClient() {
             <div className="w-10 h-10 rounded-full bg-[#FAF8F5] border border-[#C4AC8D] flex items-center justify-center text-[#9B7B50]">
               <Truck className="w-5 h-5" />
             </div>
-            <h3 className="font-serif-luxury text-xl font-medium text-[#171717]">
+            <h3 className="font-sans text-xl font-bold text-[#171717] tracking-[-0.015em]">
               Insured B2B Logistics
             </h3>
-            <p className="text-stone-600 text-xs leading-relaxed font-light">
+            <p className="text-stone-600 text-xs sm:text-[13px] leading-relaxed font-normal">
               Door-to-door insured freight across 19,000+ pin codes in India, dispatched directly from our central manufacturing warehouse.
             </p>
           </div>
@@ -102,7 +102,7 @@ export default function WholesaleClient() {
           {/* Left Column: Tiers and B2B Terms (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-[#FAF8F5] border border-[#EAE4D8] p-6 sm:p-8 space-y-6">
-              <h2 className="font-serif-luxury text-2xl font-normal text-[#171717] pb-3 border-b border-[#EAE4D8]">
+              <h2 className="font-sans text-2xl font-bold text-[#171717] pb-3 border-b border-[#EAE4D8] tracking-[-0.02em]">
                 Wholesale Order Tiers
               </h2>
 
@@ -112,7 +112,7 @@ export default function WholesaleClient() {
                     <span>Tier 1: Boutique Trial</span>
                     <span className="text-[#9B7B50]">12 – 48 Pairs</span>
                   </div>
-                  <p className="text-stone-500 font-light">
+                  <p className="text-stone-500 font-normal">
                     Ideal for concept stores, bespoke ateliers, and initial catalogue testing.
                   </p>
                 </div>
@@ -122,7 +122,7 @@ export default function WholesaleClient() {
                     <span>Tier 2: Retail Stockist</span>
                     <span className="text-[#9B7B50]">49 – 120 Pairs</span>
                   </div>
-                  <p className="text-stone-500 font-light">
+                  <p className="text-stone-500 font-normal">
                     Enhanced volume margin, preferential production slotting, and POS display assets.
                   </p>
                 </div>
@@ -132,7 +132,7 @@ export default function WholesaleClient() {
                     <span>Tier 3: Master Regional Distributor</span>
                     <span className="text-[#9B7B50]">120+ Pairs</span>
                   </div>
-                  <p className="text-stone-500 font-light">
+                  <p className="text-stone-500 font-normal">
                     Exclusive regional distribution rights, custom logo stamping options, and dedicated account management.
                   </p>
                 </div>
@@ -142,7 +142,7 @@ export default function WholesaleClient() {
               <div className="pt-4 border-t border-[#EAE4D8] space-y-2 text-xs">
                 <p className="font-semibold text-[#171717]">Prefer Direct Voice Call?</p>
                 <a
-                  href={`tel:${siteConfig.contact.phone.replace(/\s+/g, "")}`}
+                  href={siteConfig.contact.phoneHref}
                   className="flex items-center gap-2 text-stone-700 hover:text-[#9B7B50]"
                 >
                   <Phone className="w-3.5 h-3.5 text-[#9B7B50]" />
@@ -162,13 +162,13 @@ export default function WholesaleClient() {
           {/* Right Column: Interactive B2B Wholesale Enquiry Generator (7 cols) */}
           <div className="lg:col-span-7 bg-white border border-[#EAE4D8] p-6 sm:p-10 shadow-sm space-y-6">
             <div className="space-y-1 border-b border-[#EAE4D8] pb-4">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+              <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
                 B2B Portal
               </span>
-              <h2 className="font-serif-luxury text-2xl font-normal text-[#171717]">
+              <h2 className="font-sans text-2xl font-bold text-[#171717] tracking-[-0.02em]">
                 Submit Wholesale / Retailer Enquiry
               </h2>
-              <p className="text-stone-500 text-xs font-light">
+              <p className="text-stone-600 text-xs sm:text-[13px] font-normal leading-relaxed">
                 Fill out your firm details below. Our wholesale dispatch manager will connect with you on WhatsApp with commercial price sheets and line-sheets.
               </p>
             </div>

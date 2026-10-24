@@ -10,18 +10,18 @@ export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 md:px-8 py-16 max-w-3xl space-y-8">
       <div className="border-b border-[#EAE4D8] pb-6 space-y-2">
-        <span className="text-xs uppercase tracking-[0.25em] text-[#9B7B50] font-bold">
+        <span className="text-xs uppercase tracking-[0.2em] text-[#9B7B50] font-semibold">
           Legal Agreement
         </span>
-        <h1 className="font-serif-luxury text-3xl sm:text-4xl text-[#171717] font-normal">
+        <h1 className="font-sans text-3xl sm:text-4xl text-[#171717] font-bold tracking-[-0.02em]">
           Terms of Use
         </h1>
-        <p className="text-stone-500 text-xs">Last Updated: October 2025</p>
+        <p className="text-stone-500 text-xs font-normal">Last Updated: October 2025</p>
       </div>
 
-      <div className="prose prose-stone text-xs sm:text-sm leading-relaxed space-y-6 text-stone-700">
+      <div className="prose prose-stone text-xs sm:text-sm leading-relaxed space-y-6 text-stone-700 font-normal">
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             1. Acceptance of Terms
           </h2>
           <p>
@@ -30,7 +30,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             2. Intellectual Property Rights
           </h2>
           <p>
@@ -39,7 +39,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             3. Accuracy of Catalogue Information
           </h2>
           <p>
@@ -48,11 +48,11 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="font-serif-luxury text-xl text-[#171717] font-medium">
+          <h2 className="font-sans text-xl text-[#171717] font-bold tracking-[-0.015em]">
             4. Jurisdiction
           </h2>
           <p>
-            Any disputes arising from the use of this catalogue website or subsequent concierge sales agreements shall be governed by the laws of India and subject to the exclusive jurisdiction of the courts in Bengaluru, Karnataka.
+            Any disputes arising from the use of this catalogue website or subsequent concierge sales agreements shall be governed by the laws of India and subject to the exclusive jurisdiction of the competent courts in Uttar Pradesh.
           </p>
         </section>
       </div>

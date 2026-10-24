@@ -47,6 +47,10 @@ CREATE INDEX IF NOT EXISTS idx_products_is_published ON public.products (is_publ
 CREATE INDEX IF NOT EXISTS idx_products_is_featured ON public.products (is_featured);
 CREATE INDEX IF NOT EXISTS idx_products_price ON public.products (price);
 CREATE INDEX IF NOT EXISTS idx_products_created_at ON public.products (created_at DESC);
+-- Composite indexes for high-throughput catalogue browsing (200-1,000+ items)
+CREATE INDEX IF NOT EXISTS idx_products_published_created ON public.products (is_published, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_products_published_category_created ON public.products (is_published, category_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_products_published_price ON public.products (is_published, price ASC);
 
 -- 4. Create Product Variants Table (Size & Colour matrix with real stock quantities)
 CREATE TABLE IF NOT EXISTS public.product_variants (
@@ -66,6 +70,7 @@ CREATE TABLE IF NOT EXISTS public.product_variants (
 CREATE INDEX IF NOT EXISTS idx_variants_product_id ON public.product_variants (product_id);
 CREATE INDEX IF NOT EXISTS idx_variants_sku ON public.product_variants (sku);
 CREATE INDEX IF NOT EXISTS idx_variants_availability ON public.product_variants (is_available);
+CREATE INDEX IF NOT EXISTS idx_variants_product_stock ON public.product_variants (product_id, is_available, stock_quantity);
 
 -- 5. Create Product Images Table
 CREATE TABLE IF NOT EXISTS public.product_images (
