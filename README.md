@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # COZZER — Luxury Footwear Catalogue & Brand Showcase
 
 > **Official Website:** [cozzer.in](https://cozzer.in)  
@@ -272,3 +273,6 @@ Before public launch:
 - [ ] Run `supabase/migrations/01_initial_schema.sql` in your Supabase project.
 - [ ] Create initial administrator user in Supabase Auth -> Users.
 - [ ] Upload final commercial product photos and import your catalogue via `/admin/import`.
+=======
+# cozzer
+>>>>>>> origin/main
