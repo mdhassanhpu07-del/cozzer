@@ -1,12 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AdminHeader from "@/components/admin/AdminHeader";
 import { siteConfig } from "@/config/site";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { getAdminSession, updateAdminCredentials } from "@/lib/auth/admin-auth";
 import {
-  CheckCircle2,
-  AlertTriangle,
   Building,
   Phone,
   MessageCircle,
@@ -14,58 +12,212 @@ import {
   MapPin,
   Clock,
   Shield,
-  Database,
-  ExternalLink,
+  KeyRound,
+  CheckCircle2,
+  AlertCircle,
+  Lock,
 } from "lucide-react";
 
 export default function AdminSettingsPage() {
+  const [currentEmail, setCurrentEmail] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    const session = getAdminSession();
+    if (session?.email) {
+      setCurrentEmail(session.email);
+      setNewEmail(session.email);
+    }
+  }, []);
+
+  const handleUpdateCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+
+    if (!currentPassword) {
+      setErrorMsg("Please enter your current password to authorize this change.");
+      return;
+    }
+
+    if (!newEmail || !newEmail.includes("@")) {
+      setErrorMsg("Please enter a valid administrator email address.");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      setErrorMsg("New password must be at least 6 characters long.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setErrorMsg("New password and confirmation password do not match.");
+      return;
+    }
+
+    setIsUpdating(true);
+    const result = await updateAdminCredentials(currentPassword, newEmail, newPassword);
+    setIsUpdating(false);
+
+    if (result.success && result.session) {
+      setCurrentEmail(result.session.email);
+      setSuccessMsg("Administrator credentials updated successfully. Please use these credentials for your next login.");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setErrorMsg(result.error || "Failed to update administrator credentials.");
+    }
+  };
+
   return (
     <div className="space-y-8 max-w-4xl pb-16">
       <AdminHeader
         title="Store & Integration Settings"
-        description="Verify business communication endpoints, database status, and pre-launch credentials."
+        description="Verify business communication endpoints, administrative credentials, and pre-launch configuration."
       />
 
-      {/* Database Connection Status Card */}
-      <div className="bg-white border border-[#EAE4D8] p-6 space-y-4 shadow-sm">
+      {/* Administrative Access & Credentials Card */}
+      <div className="bg-white border border-[#EAE4D8] p-6 space-y-5 shadow-sm">
         <div className="flex items-center justify-between pb-3 border-b border-[#EAE4D8]">
           <div className="flex items-center gap-2.5">
-            <Database className="w-5 h-5 text-[#9B7B50]" />
+            <KeyRound className="w-5 h-5 text-[#9B7B50]" />
             <h2 className="font-sans text-lg font-bold text-[#171717] tracking-[-0.015em]">
-              Supabase PostgreSQL & Auth Status
+              Administrative Atelier Credentials
             </h2>
           </div>
-          <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-              isSupabaseConfigured
-                ? "bg-emerald-100 text-emerald-800"
-                : "bg-amber-100 text-amber-800"
-            }`}
-          >
-            {isSupabaseConfigured ? (
-              <>
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Connected & Live</span>
-              </>
-            ) : (
-              <>
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                <span>Preview Mode (In-Memory / Local Storage)</span>
-              </>
-            )}
+          <span className="text-xs text-stone-500 font-medium">
+            Active: <strong className="text-[#171717]">{currentEmail || "admin@cozzer.in"}</strong>
           </span>
         </div>
 
         <p className="text-xs text-stone-600 font-normal leading-relaxed">
-          {isSupabaseConfigured
-            ? "Your Supabase project URL and anonymous API keys are active. Products, variants, categories, and images are synchronized with cloud PostgreSQL."
-            : "The application is currently operating in zero-latency preview mode. To connect your cloud database, supply NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your .env.local file or deployment environment."}
+          Update your administrator username/email and password. Changes take effect immediately and persist securely across sessions and deployments.
         </p>
 
-        <div className="p-3 bg-[#FAF8F5] border border-[#EAE4D8] rounded text-xs space-y-1 font-mono text-stone-600">
-          <div>URL: {process.env.NEXT_PUBLIC_SUPABASE_URL || "Using fallback preview data store"}</div>
-          <div>Migration File: supabase/migrations/01_initial_schema.sql (Ready for execution)</div>
-        </div>
+        {errorMsg && (
+          <div
+            role="alert"
+            className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2"
+          >
+            <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
+        {successMsg && (
+          <div
+            role="status"
+            className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2"
+          >
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <span>{successMsg}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleUpdateCredentials} className="space-y-4 pt-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Current Password */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-semibold uppercase tracking-wider text-stone-700">
+                Current Password <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="password"
+                  required
+                  disabled={isUpdating}
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Enter current password to verify identity"
+                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+                <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
+
+            {/* New Administrator Username / Email */}
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-semibold uppercase tracking-wider text-stone-700">
+                New Administrator Username / Email <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  required
+                  disabled={isUpdating}
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder="admin@cozzer.in"
+                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+                <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
+
+            {/* New Password */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-stone-700">
+                New Password <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="password"
+                  required
+                  disabled={isUpdating}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="At least 6 characters"
+                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+                <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
+
+            {/* Confirm New Password */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-stone-700">
+                Confirm New Password <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="password"
+                  required
+                  disabled={isUpdating}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Repeat new password"
+                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+                <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2 flex justify-end">
+            <button
+              type="submit"
+              disabled={isUpdating}
+              className="inline-flex items-center justify-center gap-2 bg-[#171717] hover:bg-[#2A2927] text-white py-2.5 px-6 text-xs uppercase tracking-widest font-bold border border-[#9B7B50] shadow-sm transition-all disabled:opacity-50"
+            >
+              {isUpdating ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-[#9B7B50] border-t-transparent rounded-full animate-spin" />
+                  <span>Saving Credentials...</span>
+                </>
+              ) : (
+                <span>Update Credentials</span>
+              )}
+            </button>
+          </div>
+        </form>
       </div>
 
       {/* Configured Business Contact Endpoints */}

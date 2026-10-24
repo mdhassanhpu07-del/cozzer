@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:acceptance": "tsx scripts/test-acceptance.ts"
+    "test:acceptance": "tsx scripts/test-acceptance.ts",
+    "test:admin-auth": "tsx scripts/test-admin-auth-enhancements.ts",
+    "test:supabase": "tsx scripts/test-supabase-connection.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

@@ -4,18 +4,20 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { loginAdmin } from "@/lib/auth/admin-auth";
-import { Lock, Mail, Shield, ArrowRight, AlertCircle, Sparkles } from "lucide-react";
+import { Lock, Mail, ArrowRight, AlertCircle, Sparkles } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [generalError, setGeneralError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setGeneralError(null);
+    setPasswordError(null);
     setLoading(true);
 
     const res = await loginAdmin(email, password);
@@ -23,14 +25,19 @@ export default function AdminLoginPage() {
 
     if (res.success) {
       router.push("/admin");
+      router.refresh();
+    } else if (res.errorType === "incorrect_password") {
+      setPasswordError("Incorrect password. Please try again.");
     } else {
-      setError(res.error || "Authentication failed.");
+      setGeneralError(res.error || "Invalid username or password.");
     }
   };
 
   const handleFillDemo = () => {
     setEmail("admin@cozzer.in");
     setPassword("cozzer_luxury_admin");
+    setGeneralError(null);
+    setPasswordError(null);
   };
 
   return (
@@ -55,26 +62,33 @@ export default function AdminLoginPage() {
 
         {/* Login Card */}
         <div className="bg-white p-8 border border-[#EAE4D8] shadow-2xl space-y-6">
-          {error && (
-            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
+          {generalError && (
+            <div
+              role="alert"
+              className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2"
+            >
               <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
-              <span>{error}</span>
+              <span>{generalError}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-stone-700">
-                Administrator Email
+                Administrator Username / Email
               </label>
               <div className="relative">
                 <input
                   type="email"
                   required
+                  disabled={loading}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (generalError) setGeneralError(null);
+                  }}
                   placeholder="admin@cozzer.in"
-                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717] disabled:opacity-60"
                 />
                 <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
@@ -88,22 +102,53 @@ export default function AdminLoginPage() {
                 <input
                   type="password"
                   required
+                  disabled={loading}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (passwordError) setPasswordError(null);
+                  }}
                   placeholder="••••••••••••"
-                  className="w-full bg-[#FAF8F5] border border-[#C4AC8D] pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                  aria-invalid={!!passwordError}
+                  aria-describedby={passwordError ? "password-error" : undefined}
+                  className={`w-full bg-[#FAF8F5] border pl-9 pr-3.5 py-2.5 text-xs text-[#171717] focus:outline-none disabled:opacity-60 ${
+                    passwordError
+                      ? "border-rose-400 focus:border-rose-600"
+                      : "border-[#C4AC8D] focus:border-[#171717]"
+                  }`}
                 />
                 <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
+
+              {/* Specific Password Error rendered directly below password field */}
+              {passwordError && (
+                <p
+                  id="password-error"
+                  role="alert"
+                  className="text-xs text-rose-600 font-medium flex items-center gap-1.5 pt-0.5"
+                >
+                  <AlertCircle className="w-3.5 h-3.5 text-rose-600 flex-shrink-0" />
+                  <span>{passwordError}</span>
+                </p>
+              )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-[#171717] hover:bg-[#2A2927] text-white py-3 px-6 text-xs uppercase tracking-widest font-bold border border-[#9B7B50] shadow-md transition-all disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 bg-[#171717] hover:bg-[#2A2927] text-white py-3 px-6 text-xs uppercase tracking-widest font-bold border border-[#9B7B50] shadow-md transition-all disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
             >
-              <span>{loading ? "Authenticating..." : "Enter Admin Workspace"}</span>
-              <ArrowRight className="w-4 h-4 text-[#9B7B50]" />
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-[#9B7B50] border-t-transparent rounded-full animate-spin" />
+                  <span>Authenticating...</span>
+                </>
+              ) : (
+                <>
+                  <span>Enter Admin Workspace</span>
+                  <ArrowRight className="w-4 h-4 text-[#9B7B50]" />
+                </>
+              )}
             </button>
           </form>
 
@@ -114,8 +159,9 @@ export default function AdminLoginPage() {
             </p>
             <button
               type="button"
+              disabled={loading}
               onClick={handleFillDemo}
-              className="inline-flex items-center gap-1.5 text-xs text-[#9B7B50] hover:text-[#7D623C] font-semibold underline"
+              className="inline-flex items-center gap-1.5 text-xs text-[#9B7B50] hover:text-[#7D623C] font-semibold underline disabled:opacity-50"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Fill Demo Credentials (admin@cozzer.in)</span>

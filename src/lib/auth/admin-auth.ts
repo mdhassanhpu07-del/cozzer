@@ -3,8 +3,6 @@
 import { isSupabaseConfigured, supabase } from "../supabase/client";
 
 const ADMIN_SESSION_KEY = "cozzer_admin_session_token";
-const DEMO_ADMIN_EMAIL = "admin@cozzer.in";
-const DEMO_ADMIN_PASSWORD = "cozzer_luxury_admin";
 
 export interface AdminSession {
   email: string;
@@ -13,61 +11,64 @@ export interface AdminSession {
   isDemo?: boolean;
 }
 
-export async function loginAdmin(email: string, password: string): Promise<{ success: boolean; session?: AdminSession; error?: string }> {
-  // 1. If Supabase is configured, use Supabase Auth
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+export interface LoginResult {
+  success: boolean;
+  session?: AdminSession;
+  error?: string;
+  errorType?: "incorrect_password" | "invalid_user" | "rate_limited";
+}
 
-      if (error) {
-        return { success: false, error: error.message };
-      }
+/**
+ * Authenticate admin against server-side endpoint with Supabase Auth verification
+ */
+export async function loginAdmin(email: string, password: string): Promise<LoginResult> {
+  try {
+    const res = await fetch("/api/admin/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-      if (data.session) {
-        const session: AdminSession = {
-          email: data.user.email || email,
-          role: "admin",
-          token: data.session.access_token,
-          isDemo: false,
-        };
-        if (typeof window !== "undefined") {
-          localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
-        }
-        return { success: true, session };
-      }
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "Authentication failed";
-      return { success: false, error: msg };
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      return {
+        success: false,
+        error: data.error || "Authentication failed.",
+        errorType: data.errorType || "invalid_user",
+      };
     }
-  }
 
-  // 2. Demo / Preview mode authentication
-  if (
-    (email.trim().toLowerCase() === DEMO_ADMIN_EMAIL.toLowerCase() && password === DEMO_ADMIN_PASSWORD) ||
-    (email.includes("@") && password.length >= 6)
-  ) {
     const session: AdminSession = {
-      email,
-      role: "admin",
-      token: `demo-token-${Date.now()}`,
-      isDemo: true,
+      email: data.session.email,
+      role: data.session.role || "admin",
+      token: data.session.token,
+      isDemo: false,
     };
 
     if (typeof window !== "undefined") {
       localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
     }
-    return { success: true, session };
-  }
 
-  return {
-    success: false,
-    error: `Invalid credentials. For preview mode, use ${DEMO_ADMIN_EMAIL} and password: ${DEMO_ADMIN_PASSWORD}`,
-  };
+    // Keep client-side Supabase session synchronized if active
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase.auth.signInWithPassword({ email, password });
+      } catch {
+        // Handled silently since server session is already valid
+      }
+    }
+
+    return { success: true, session };
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Authentication network request failed.";
+    return { success: false, error: msg, errorType: "invalid_user" };
+  }
 }
 
+/**
+ * Retrieve current active admin session
+ */
 export function getAdminSession(): AdminSession | null {
   if (typeof window !== "undefined") {
     try {
@@ -82,7 +83,67 @@ export function getAdminSession(): AdminSession | null {
   return null;
 }
 
+/**
+ * Securely update admin username/email and password
+ */
+export async function updateAdminCredentials(
+  currentPassword: string,
+  newEmail: string,
+  newPassword: string
+): Promise<{ success: boolean; session?: AdminSession; error?: string }> {
+  try {
+    const currentSession = getAdminSession();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (currentSession?.token) {
+      headers["Authorization"] = `Bearer ${currentSession.token}`;
+    }
+
+    const res = await fetch("/api/admin/auth/update-credentials", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ currentPassword, newEmail, newPassword }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      return {
+        success: false,
+        error: data.error || "Failed to update admin credentials.",
+      };
+    }
+
+    const session: AdminSession = {
+      email: data.session.email,
+      role: data.session.role || "admin",
+      token: data.session.token,
+      isDemo: false,
+    };
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
+    }
+
+    return { success: true, session };
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Failed to communicate with credentials service.";
+    return { success: false, error: msg };
+  }
+}
+
+/**
+ * Logout admin and clear both server cookies and client storage
+ */
 export async function logoutAdmin(): Promise<void> {
+  try {
+    await fetch("/api/admin/auth/logout", { method: "POST" });
+  } catch {
+    // ignore
+  }
+
   if (isSupabaseConfigured && supabase) {
     try {
       await supabase.auth.signOut();

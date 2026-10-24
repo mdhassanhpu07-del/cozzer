@@ -23,12 +23,42 @@ export default function AdminLayout({
     }
 
     const session = getAdminSession();
-    if (!session) {
-      setIsAuthenticated(false);
-      router.push("/admin/login");
-    } else {
+    if (session) {
       setIsAuthenticated(true);
+      return;
     }
+
+    // Secondary fallback: verify server-side HTTP session cookie
+    let isMounted = true;
+    fetch("/api/admin/auth/session")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!isMounted) return;
+        if (data && data.authenticated && data.user) {
+          localStorage.setItem(
+            "cozzer_admin_session_token",
+            JSON.stringify({
+              email: data.user.email,
+              role: data.user.role || "admin",
+              token: "cookie-session",
+              isDemo: false,
+            })
+          );
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+          router.push("/admin/login");
+        }
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setIsAuthenticated(false);
+        router.push("/admin/login");
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [pathname, router]);
 
   if (pathname === "/admin/login") {
